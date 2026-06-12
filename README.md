@@ -1,93 +1,283 @@
-# Ai tutor
+# AI Reverse Tutor
 
+## Overview
 
+AI Reverse Tutor is an AI-powered learning assessment platform that evaluates a student's understanding by asking adaptive questions instead of simply providing answers.
 
-## Getting started
+Unlike traditional AI tutors, AI Reverse Tutor follows the Feynman learning principle: if a student can explain a concept clearly, they truly understand it. The system conducts intelligent interviews, identifies knowledge gaps, generates skill assessments, and creates personalized learning roadmaps.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+The application supports multiple AI providers, multilingual learning experiences, and both local and cloud-based AI inference.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+---
 
-## Add your files
+## Problem Statement
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Most AI learning tools focus on answering student questions.
 
-```
-cd existing_repo
-git remote add origin https://code.swecha.org/ReddyRahul01/ai-tutor.git
-git branch -M main
-git push -uf origin main
-```
+This often creates an illusion of learning without verifying whether the student actually understands the concept.
 
-## Integrate with your tools
+AI Reverse Tutor solves this problem by:
 
-- [ ] [Set up project integrations](https://code.swecha.org/ReddyRahul01/ai-tutor/-/settings/integrations)
+* Asking adaptive questions
+* Evaluating responses
+* Identifying misconceptions
+* Detecting knowledge gaps
+* Creating personalized learning plans
 
-## Collaborate with your team
+---
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Key Features
 
-## Test and Deploy
+### Adaptive Reverse Tutoring
 
-Use the built-in continuous integration in GitLab.
+The AI acts as an interviewer and asks topic-specific questions.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Example:
 
-***
+Topic: REST APIs
 
-# Editing this README
+Question 1:
+What is an API?
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Question 2:
+Can you explain the difference between GET and POST?
 
-## Suggestions for a good README
+Question 3:
+How does authentication work in REST APIs?
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+The difficulty adjusts dynamically based on student responses.
 
-## Name
-Choose a self-explaining name for your project.
+---
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Knowledge Gap Detection
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+The platform identifies:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+* Strong concepts
+* Weak concepts
+* Missing knowledge areas
+* Misconceptions
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Skill X-Ray Dashboard
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Provides detailed skill assessment.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Example:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Python:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+* Basics: 90%
+* Functions: 85%
+* OOP: 60%
+* Decorators: 25%
+* Async Programming: 10%
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+---
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Personalized Learning Roadmaps
 
-## License
-For open source projects, say how it is licensed.
+Generates customized learning plans based on detected weaknesses.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Example:
+
+Week 1:
+
+* Python Functions
+* Error Handling
+
+Week 2:
+
+* Object-Oriented Programming
+
+Week 3:
+
+* Decorators and Generators
+
+Week 4:
+
+* Async Programming
+
+---
+
+### Multi-Language Support
+
+Supports:
+
+* English
+* Telugu
+* Hindi
+
+Implemented using internationalization (i18n) and localization (l10n) principles.
+
+---
+
+### Multiple AI Providers
+
+#### Local AI
+
+* Ollama
+* Llama 3
+* Gemma
+* Mistral
+
+#### BYOK (Bring Your Own Key)
+
+Users can provide their own:
+
+* Gemini API Key
+* Groq API Key
+
+---
+
+### Assessment History
+
+Stores previous assessments and allows users to track progress over time.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* React Router
+* Axios
+
+### Backend
+
+* FastAPI
+* Python
+
+### AI Providers
+
+* Ollama
+* Google Gemini
+* Groq
+
+### Database
+
+* SQLite
+
+### Internationalization
+
+* react-i18next
+
+### Charts and Visualization
+
+* Recharts
+
+---
+
+## Project Architecture
+
+Frontend (React)
+|
+|-- Topic Selection
+|-- Interview Interface
+|-- Skill Dashboard
+|-- Learning Roadmap
+|-- Assessment History
+|
+Backend (FastAPI)
+|
+|-- AI Provider Layer
+|-- Adaptive Question Engine
+|-- Answer Evaluation Engine
+|-- Knowledge Gap Detector
+|-- Roadmap Generator
+|-- SQLite Database
+
+---
+
+## Team Responsibilities
+
+### Frontend Developer
+
+Responsible for:
+
+* React UI
+* Dashboard
+* Routing
+* Language Switching
+* Charts and Visualizations
+* API Integration
+
+### Backend Developer
+
+Responsible for:
+
+* FastAPI APIs
+* AI Integrations
+* Question Generation
+* Answer Evaluation
+* Knowledge Gap Analysis
+* Roadmap Generation
+* Database Management
+
+---
+
+## Folder Structure
+
+project-root/
+
+frontend/
+
+* src/
+* components/
+* pages/
+* services/
+* hooks/
+* i18n/
+* assets/
+
+backend/
+
+* app/
+* api/
+* services/
+* database/
+* models/
+* schemas/
+* utils/
+
+docs/
+
+README.md
+
+---
+
+## Future Enhancements
+
+* Voice-based interviews
+* Speech-to-text assessments
+* Real-time mentoring
+* Subject-specific tutors
+* Competitive programming assessment mode
+* Placement preparation mode
+* Interview simulation mode
+
+---
+
+## Hackathon Requirements Coverage
+
+| Requirement         | Status       |
+| ------------------- | ------------ |
+| AI Powered          | Yes          |
+| Local AI Inference  | Yes (Ollama) |
+| BYOK Support        | Yes          |
+| English Support     | Yes          |
+| Telugu Support      | Yes          |
+| Hindi Support       | Yes          |
+| Team Collaboration  | Yes          |
+| Learning Assessment | Yes          |
+
+---
+
+## Vision
+
+AI Reverse Tutor aims to transform learning from passive consumption into active understanding by making students explain, defend, and apply their knowledge while receiving personalized guidance from AI.
