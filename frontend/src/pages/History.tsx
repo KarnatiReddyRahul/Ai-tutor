@@ -114,7 +114,7 @@ export default function History() {
               className="text-muted-foreground hover:text-primary"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              {t('common.back')}
             </Button>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('history.title')}</h1>

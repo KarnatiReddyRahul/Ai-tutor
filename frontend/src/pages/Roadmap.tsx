@@ -129,7 +129,7 @@ export default function Roadmap() {
       <div className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-md mx-auto">
           <Map className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-2xl font-bold mb-2">No Roadmap Available</h2>
+          <h2 className="text-2xl font-bold mb-2">{t('roadmap.no_roadmap_title')}</h2>
           <p className="text-muted-foreground mb-6">{t('roadmap.no_roadmap')}</p>
           <Button onClick={() => navigate('/topics')}>
             {t('nav.start_assessment')}
@@ -214,7 +214,7 @@ export default function Roadmap() {
         {/* Navigation */}
         <div className="flex justify-center mt-8">
           <Button variant="outline" onClick={() => navigate('/knowledge-gaps')}>
-            Back to Knowledge Gaps
+            {t('roadmap.back_to_gaps')}
           </Button>
         </div>
       </div>

@@ -29,9 +29,9 @@ export default function Settings() {
   };
 
   const languages: { code: Language; label: string; native: string }[] = [
-    { code: 'en', label: 'English', native: 'English' },
-    { code: 'te', label: 'Telugu', native: 'తెలుగు' },
-    { code: 'hi', label: 'Hindi', native: 'हिन्दी' },
+    { code: 'en', label: t('settings.language_en'), native: 'English' },
+    { code: 'te', label: t('settings.language_te'), native: 'తెలుగు' },
+    { code: 'hi', label: t('settings.language_hi'), native: 'हिन्दी' },
   ];
 
   const themes: { value: Theme; label: string }[] = [
@@ -59,7 +59,7 @@ export default function Settings() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
             </Button>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('settings.title')}</h1>

@@ -62,7 +62,7 @@ export default function TopicSelection() {
               className="text-muted-foreground hover:text-primary"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              {t('common.back')}
             </Button>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('topics.title')}</h1>
@@ -111,7 +111,7 @@ export default function TopicSelection() {
               step={1}
             />
             {confidence[0] === 0 && (
-              <p className="text-xs text-muted-foreground mt-2">Learn first via chat, then start assessment when ready</p>
+              <p className="text-xs text-muted-foreground mt-2">{t('topics.learn_first_hint')}</p>
             )}
           </CardContent>
         </Card>
@@ -132,7 +132,7 @@ export default function TopicSelection() {
               return (
                 <div key={category}>
                   <h2 className="text-lg font-semibold mb-4 text-muted-foreground">
-                    {category}
+                    {t('topics.category_' + category)}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {categoryTopics.map((topic) => (
@@ -147,10 +147,10 @@ export default function TopicSelection() {
                               <div className="text-2xl">{topic.icon}</div>
                               <div>
                                 <CardTitle className="text-base mb-1">
-                                  {topic.name}
+                                  {t('topics.' + topic.id.replace(/-/g, '_') + '_name')}
                                 </CardTitle>
                                 <CardDescription className="text-xs">
-                                  {topic.description}
+                                  {t('topics.' + topic.id.replace(/-/g, '_') + '_desc')}
                                 </CardDescription>
                               </div>
                             </div>

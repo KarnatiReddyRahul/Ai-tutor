@@ -140,12 +140,12 @@ export function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate('/profile')}>
                   <User className="mr-2 h-4 w-4" />
-                  <span>View Profile</span>
+                  <span>{t('nav.view_profile')}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign Out</span>
+                  <span>{t('nav.sign_out')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -154,7 +154,7 @@ export function Navbar() {
               size="sm"
               onClick={() => navigate('/login')}
             >
-              Sign In
+              {t('nav.sign_in')}
             </Button>
           )}
 
@@ -195,7 +195,7 @@ export function Navbar() {
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                 >
                   <User className="h-4 w-4" />
-                  Profile
+                  {t('nav.profile')}
                 </Link>
                 <button
                   onClick={() => {
@@ -205,7 +205,7 @@ export function Navbar() {
                   className="text-sm font-medium text-destructive hover:text-destructive/80 transition-colors text-left flex items-center gap-2"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign Out
+                  {t('nav.sign_out')}
                 </button>
               </>
             )}

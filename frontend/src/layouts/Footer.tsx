@@ -18,7 +18,7 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h3 className="font-semibold mb-3 text-sm">Product</h3>
+            <h3 className="font-semibold mb-3 text-sm">{t('footer.product')}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="/topics" className="hover:text-primary transition-colors">{t('nav.topics')}</a></li>
               <li><a href="/history" className="hover:text-primary transition-colors">{t('nav.history')}</a></li>
@@ -26,11 +26,11 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-3 text-sm">Support</h3>
+            <h3 className="font-semibold mb-3 text-sm">{t('footer.support')}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><span className="cursor-default">Documentation</span></li>
-              <li><span className="cursor-default">API</span></li>
-              <li><span className="cursor-default">Contact</span></li>
+              <li><span className="cursor-default">{t('footer.documentation')}</span></li>
+              <li><span className="cursor-default">{t('footer.api')}</span></li>
+              <li><span className="cursor-default">{t('footer.contact')}</span></li>
             </ul>
           </div>
         </div>

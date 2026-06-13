@@ -130,7 +130,7 @@ export default function Interview() {
           className="text-muted-foreground hover:text-primary"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Topics
+          {t('nav.back_to_topics')}
         </Button>
       </div>
 
@@ -144,7 +144,7 @@ export default function Interview() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-semibold">{topic.name}</div>
+              <div className="text-lg font-semibold">{t('topics.' + topic.id.replace(/-/g, '_') + '_name')}</div>
             </CardContent>
           </Card>
 
@@ -152,7 +152,7 @@ export default function Interview() {
             <CardContent className="pt-6">
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-muted-foreground">{t('interview.progress')}</span>
-                <span className="font-medium">Turn {history.length + 1} / {stats.totalQuestions}</span>
+                <span className="font-medium">{t('interview.turn_counter', { current: history.length + 1, total: stats.totalQuestions })}</span>
               </div>
               <Progress value={progressPercent} className="h-2" />
             </CardContent>
@@ -164,7 +164,7 @@ export default function Interview() {
             onClick={() => setShowDoubtChat(!showDoubtChat)}
           >
             <MessageCircle className="h-4 w-4 mr-2" />
-            {showDoubtChat ? 'Close Doubt Chat' : 'Ask a Doubt'}
+            {showDoubtChat ? t('interview.close_doubt_chat') : t('interview.ask_doubt')}
           </Button>
         </div>
 
@@ -204,7 +204,7 @@ export default function Interview() {
                 apiKey={import.meta.env.VITE_GROQ_API_KEY || ''}
                 provider="groq"
                 onSendMessage={(question, history) => chatService.ask(topic.name, question, history, import.meta.env.VITE_GROQ_API_KEY || '', 'groq')}
-                placeholder="Ask a doubt about this question..."
+                placeholder={t('interview.doubt_placeholder')}
                 compact
               />
             </div>
@@ -224,7 +224,7 @@ export default function Interview() {
                     {history.map((h, i) => (
                       <div key={h.id} className="p-3 rounded-lg text-sm border border-muted">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-medium text-xs text-muted-foreground">Turn {h.turn_number}</span>
+                          <span className="font-medium text-xs text-muted-foreground">{t('interview.turn_number', { number: h.turn_number })}</span>
                           {(h.score || 0) >= 60 ? (
                             <CheckCircle2 className="h-3 w-3 text-green-500" />
                           ) : (

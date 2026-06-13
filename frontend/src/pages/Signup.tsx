@@ -29,27 +29,27 @@ export default function Signup() {
 
   const validateForm = (): boolean => {
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError('Please fill in all fields');
+      setError(t('signup.fill_fields'));
       return false;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError('Please enter a valid email address');
+      setError(t('signup.invalid_email'));
       return false;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError(t('signup.password_length'));
       return false;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('signup.passwords_mismatch'));
       return false;
     }
 
     if (formData.name.length < 2) {
-      setError('Name must be at least 2 characters long');
+      setError(t('signup.name_length'));
       return false;
     }
 
@@ -68,7 +68,7 @@ export default function Signup() {
       await signup(formData.email, formData.name, formData.password);
       navigate('/topics');
     } catch (err) {
-      setError('Signup failed. Please try again.');
+      setError(t('signup.failed'));
     }
   };
 
@@ -80,7 +80,7 @@ export default function Signup() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             {APP_NAME}
           </h1>
-          <p className="text-muted-foreground">Start your learning journey</p>
+          <p className="text-muted-foreground">{t('signup.subtitle')}</p>
         </div>
 
         {/* Back button */}
@@ -92,15 +92,15 @@ export default function Signup() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
           </Button>
         </div>
 
         {/* Signup Card */}
         <Card className="border border-primary/10 shadow-xl">
           <CardHeader className="space-y-2">
-            <CardTitle className="text-2xl">Create Account</CardTitle>
-            <CardDescription>Join our community of learners today</CardDescription>
+            <CardTitle className="text-2xl">{t('signup.title')}</CardTitle>
+            <CardDescription>{t('signup.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -113,7 +113,7 @@ export default function Signup() {
               {/* Name Field */}
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium">
-                  Full Name
+                  {t('signup.full_name')}
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
@@ -121,7 +121,7 @@ export default function Signup() {
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder={t('signup.name_placeholder')}
                     value={formData.name}
                     onChange={handleChange}
                     className="pl-10"
@@ -133,7 +133,7 @@ export default function Signup() {
               {/* Email Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
-                  Email Address
+                  {t('signup.email')}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
@@ -141,7 +141,7 @@ export default function Signup() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder={t('signup.email_placeholder')}
                     value={formData.email}
                     onChange={handleChange}
                     className="pl-10"
@@ -153,7 +153,7 @@ export default function Signup() {
               {/* Password Field */}
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium">
-                  Password
+                  {t('signup.password')}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
@@ -161,20 +161,20 @@ export default function Signup() {
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={t('signup.password_placeholder')}
                     value={formData.password}
                     onChange={handleChange}
                     className="pl-10"
                     disabled={isLoading}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground">At least 6 characters</p>
+                <p className="text-xs text-muted-foreground">{t('signup.password_hint')}</p>
               </div>
 
               {/* Confirm Password Field */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-sm font-medium">
-                  Confirm Password
+                  {t('signup.confirm_password')}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
@@ -182,7 +182,7 @@ export default function Signup() {
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={t('signup.confirm_placeholder')}
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     className="pl-10"
@@ -200,10 +200,10 @@ export default function Signup() {
                 {isLoading ? (
                   <>
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
+                    {t('signup.creating_account')}
                   </>
                 ) : (
-                  'Create Account'
+                  t('signup.create_account')
                 )}
               </Button>
             </form>
@@ -214,15 +214,15 @@ export default function Signup() {
                 <div className="w-full border-t border-muted-foreground/20"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or</span>
+                <span className="bg-card px-2 text-muted-foreground">{t('signup.or')}</span>
               </div>
             </div>
 
             {/* Login Link */}
             <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{' '}
+              {t('signup.has_account')}{' '}
               <Link to="/login" className="font-semibold text-primary hover:underline">
-                Sign in
+                {t('signup.sign_in')}
               </Link>
             </p>
           </CardContent>
@@ -230,7 +230,7 @@ export default function Signup() {
 
         {/* Demo Hint */}
         <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 text-center text-sm text-muted-foreground">
-          <p>Demo hint: Use any details to create an account</p>
+          <p>{t('signup.demo_hint')}</p>
         </div>
       </div>
     </div>

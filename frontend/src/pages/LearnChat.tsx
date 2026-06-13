@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { chatService } from '@/services/chatService';
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
 
 export default function LearnChat() {
+  const { t } = useTranslation();
   const { topicId } = useParams();
   const navigate = useNavigate();
   const { setTopic } = useInterviewStore();
@@ -18,8 +20,8 @@ export default function LearnChat() {
   if (!topic) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <p className="text-muted-foreground">Topic not found.</p>
-        <Button onClick={() => navigate('/topics')} className="mt-4">Back to Topics</Button>
+        <p className="text-muted-foreground">{t('learn_chat.topic_not_found')}</p>
+        <Button onClick={() => navigate('/topics')} className="mt-4">{t('nav.back_to_topics')}</Button>
       </div>
     );
   }
@@ -34,10 +36,10 @@ export default function LearnChat() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <Button variant="ghost" size="sm" onClick={() => navigate('/topics')}>
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back
+            <ArrowLeft className="h-4 w-4 mr-2" /> {t('common.back')}
           </Button>
           <Button onClick={handleStartAssessment}>
-            <Play className="h-4 w-4 mr-2" /> Start Assessment
+            <Play className="h-4 w-4 mr-2" /> {t('nav.start_assessment')}
           </Button>
         </div>
 
@@ -46,8 +48,8 @@ export default function LearnChat() {
             <div className="flex items-center gap-3 mb-2">
               <span className="text-3xl">{topic.icon}</span>
               <div>
-                <h1 className="text-2xl font-bold">Learn: {topic.name}</h1>
-                <p className="text-muted-foreground text-sm">{topic.description}</p>
+                <h1 className="text-2xl font-bold">{t('learn_chat.learn_title')} {t('topics.' + topic.id.replace(/-/g, '_') + '_name')}</h1>
+                <p className="text-muted-foreground text-sm">{t('topics.' + topic.id.replace(/-/g, '_') + '_desc')}</p>
               </div>
             </div>
           </CardContent>
@@ -59,7 +61,7 @@ export default function LearnChat() {
             apiKey={GROQ_API_KEY}
             provider="groq"
             onSendMessage={(question, history) => chatService.ask(topic.name, question, history, GROQ_API_KEY, 'groq')}
-            placeholder="Ask anything about this topic..."
+            placeholder={t('learn_chat.placeholder')}
           />
         </div>
       </div>

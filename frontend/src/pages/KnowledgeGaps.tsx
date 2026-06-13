@@ -36,12 +36,12 @@ export default function KnowledgeGaps() {
       <div className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-md mx-auto">
           <AlertTriangle className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h2 className="text-2xl font-bold mb-2">No Assessment Data</h2>
+          <h2 className="text-2xl font-bold mb-2">{t('gaps.no_data_title')}</h2>
           <p className="text-muted-foreground mb-6">
-            Complete an assessment to see your knowledge gap analysis.
+            {t('gaps.no_data_message')}
           </p>
           <Button onClick={() => navigate('/topics')}>
-            Start Assessment
+            {t('nav.start_assessment')}
           </Button>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function KnowledgeGaps() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
           </Button>
         </div>
 
@@ -86,7 +86,7 @@ export default function KnowledgeGaps() {
             }}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to History
+            {t('results.back_to_history')}
           </Button>
         )}
 
@@ -281,7 +281,7 @@ export default function KnowledgeGaps() {
             size="lg"
             onClick={() => navigate('/results')}
           >
-            Back to Results
+            {t('results.back_to_results')}
           </Button>
           <Button
             size="lg"

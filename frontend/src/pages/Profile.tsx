@@ -77,7 +77,7 @@ export default function Profile() {
 
   const handleSave = () => {
     if (editData.name.trim().length < 2) {
-      alert('Name must be at least 2 characters');
+      alert(t('profile.name_length_alert'));
       return;
     }
 
@@ -86,7 +86,7 @@ export default function Profile() {
   };
 
   const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
+    if (window.confirm(t('profile.confirm_logout'))) {
       logout();
       navigate('/login');
     }
@@ -117,11 +117,11 @@ export default function Profile() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
             </Button>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">My Profile</h1>
-          <p className="text-muted-foreground">Manage your account and profile information</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('profile.title')}</h1>
+          <p className="text-muted-foreground">{t('profile.subtitle')}</p>
         </div>
 
         {/* Profile Card */}
@@ -129,8 +129,8 @@ export default function Profile() {
           <CardHeader>
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <CardTitle>Profile Information</CardTitle>
-                <CardDescription>Your personal details and account information</CardDescription>
+                <CardTitle>{t('profile.information_title')}</CardTitle>
+                <CardDescription>{t('profile.information_description')}</CardDescription>
               </div>
               <div className="flex gap-2">
                 {isEditing ? (
@@ -141,17 +141,17 @@ export default function Profile() {
                       onClick={handleCancel}
                     >
                       <X className="h-4 w-4 mr-2" />
-                      Cancel
+                      {t('common.cancel')}
                     </Button>
                     <Button size="sm" onClick={handleSave}>
                       <Save className="h-4 w-4 mr-2" />
-                      Save
+                      {t('common.save')}
                     </Button>
                   </>
                 ) : (
                   <Button variant="outline" size="sm" onClick={handleEdit}>
                     <Edit2 className="h-4 w-4 mr-2" />
-                    Edit
+                    {t('common.edit')}
                   </Button>
                 )}
               </div>
@@ -170,7 +170,7 @@ export default function Profile() {
                 {/* Name Field */}
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-sm font-medium">
-                    Full Name
+                    {t('profile.full_name')}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -179,7 +179,7 @@ export default function Profile() {
                       onChange={(e) =>
                         setEditData((prev) => ({ ...prev, name: e.target.value }))
                       }
-                      placeholder="Your name"
+                      placeholder={t('profile.name_placeholder')}
                     />
                   ) : (
                     <p className="text-lg font-semibold">{user.name}</p>
@@ -190,7 +190,7 @@ export default function Profile() {
                 <div className="space-y-2">
                   <Label className="text-sm font-medium flex items-center gap-2">
                     <Mail className="h-4 w-4" />
-                    Email Address
+                    {t('profile.email')}
                   </Label>
                   <p className="text-muted-foreground">{user.email}</p>
                 </div>
@@ -202,7 +202,7 @@ export default function Profile() {
             {/* Bio Field */}
             <div className="space-y-2">
               <Label htmlFor="bio" className="text-sm font-medium">
-                Bio
+                {t('profile.bio')}
               </Label>
               {isEditing ? (
                 <Textarea
@@ -211,12 +211,12 @@ export default function Profile() {
                   onChange={(e) =>
                     setEditData((prev) => ({ ...prev, bio: e.target.value }))
                   }
-                  placeholder="Tell us about yourself..."
+                  placeholder={t('profile.bio_placeholder')}
                   className="min-h-24"
                 />
               ) : (
                 <p className="text-muted-foreground">
-                  {user.bio || 'No bio added yet. Click Edit to add one.'}
+                  {user.bio || t('profile.no_bio')}
                 </p>
               )}
             </div>
@@ -226,8 +226,8 @@ export default function Profile() {
         {/* Statistics Card */}
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Learning Statistics</CardTitle>
-            <CardDescription>Your progress and achievements</CardDescription>
+            <CardTitle>{t('profile.stats_title')}</CardTitle>
+            <CardDescription>{t('profile.stats_description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -237,7 +237,7 @@ export default function Profile() {
                   <BarChart3 className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-3xl font-bold">{user.totalAssessments}</div>
-                <p className="text-sm text-muted-foreground mt-1">Assessments Completed</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('profile.assessments_completed')}</p>
               </div>
 
               {/* Average Score */}
@@ -246,7 +246,7 @@ export default function Profile() {
                   <div className="text-3xl font-bold text-primary">⭐</div>
                 </div>
                 <div className="text-3xl font-bold">{user.averageScore}%</div>
-                <p className="text-sm text-muted-foreground mt-1">Average Score</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('profile.average_score')}</p>
               </div>
 
               {/* Join Date */}
@@ -255,7 +255,7 @@ export default function Profile() {
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-sm font-semibold">{formatDate(user.joinedDate)}</div>
-                <p className="text-sm text-muted-foreground mt-1">Joined Date</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('profile.joined_date')}</p>
               </div>
             </div>
           </CardContent>
@@ -264,15 +264,15 @@ export default function Profile() {
         {/* Account Settings Card */}
         <Card>
           <CardHeader>
-            <CardTitle>Account Settings</CardTitle>
-            <CardDescription>Manage your account</CardDescription>
+            <CardTitle>{t('profile.account_settings_title')}</CardTitle>
+            <CardDescription>{t('profile.account_settings_description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
-                <p className="font-medium">Sign Out</p>
+                <p className="font-medium">{t('profile.sign_out_item')}</p>
                 <p className="text-sm text-muted-foreground">
-                  End your current session
+                  {t('profile.end_session')}
                 </p>
               </div>
               <Button
@@ -282,7 +282,7 @@ export default function Profile() {
                 className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
+                {t('profile.sign_out_button')}
               </Button>
             </div>
           </CardContent>

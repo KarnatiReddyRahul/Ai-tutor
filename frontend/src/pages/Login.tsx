@@ -23,12 +23,12 @@ export default function Login() {
     setError('');
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError(t('login.fill_fields'));
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Please enter a valid email address');
+      setError(t('login.invalid_email'));
       return;
     }
 
@@ -36,7 +36,7 @@ export default function Login() {
       await login(email, password);
       navigate('/topics');
     } catch (err) {
-      setError('Login failed. Please try again.');
+      setError(t('login.failed'));
     }
   };
 
@@ -48,7 +48,7 @@ export default function Login() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             {APP_NAME}
           </h1>
-          <p className="text-muted-foreground">Where AI Interviews You</p>
+          <p className="text-muted-foreground">{t('app.tagline')}</p>
         </div>
 
         {/* Back button */}
@@ -60,15 +60,15 @@ export default function Login() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
           </Button>
         </div>
 
         {/* Login Card */}
         <Card className="border border-primary/10 shadow-xl">
           <CardHeader className="space-y-2">
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
-            <CardDescription>Sign in to your account to continue learning</CardDescription>
+            <CardTitle className="text-2xl">{t('login.welcome_back')}</CardTitle>
+            <CardDescription>{t('login.sign_in_description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -81,14 +81,14 @@ export default function Login() {
               {/* Email Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
-                  Email Address
+                  {t('login.email')}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder={t('login.email_placeholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
@@ -100,14 +100,14 @@ export default function Login() {
               {/* Password Field */}
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium">
-                  Password
+                  {t('login.password')}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={t('login.password_placeholder')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
@@ -125,10 +125,10 @@ export default function Login() {
                 {isLoading ? (
                   <>
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
-                    Signing in...
+                    {t('login.signing_in')}
                   </>
                 ) : (
-                  'Sign In'
+                  t('login.sign_in')
                 )}
               </Button>
             </form>
@@ -139,15 +139,15 @@ export default function Login() {
                 <div className="w-full border-t border-muted-foreground/20"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or</span>
+                <span className="bg-card px-2 text-muted-foreground">{t('login.or')}</span>
               </div>
             </div>
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-muted-foreground">
-              Don't have an account?{' '}
+              {t('login.no_account')}{' '}
               <Link to="/signup" className="font-semibold text-primary hover:underline">
-                Sign up
+                {t('login.sign_up')}
               </Link>
             </p>
           </CardContent>
@@ -155,7 +155,7 @@ export default function Login() {
 
         {/* Demo Hint */}
         <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 text-center text-sm text-muted-foreground">
-          <p>Demo hint: Use any email and password to sign in</p>
+          <p>{t('login.demo_hint')}</p>
         </div>
       </div>
     </div>

@@ -49,8 +49,8 @@ export default function Results() {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <Search className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-        <h2 className="text-2xl font-bold mb-2">No Results Available</h2>
-        <p className="text-muted-foreground mb-6">Complete an assessment to see your results.</p>
+        <h2 className="text-2xl font-bold mb-2">{t('results.no_results_title')}</h2>
+        <p className="text-muted-foreground mb-6">{t('results.no_results_message')}</p>
         <Button onClick={() => navigate('/topics')}>
           {t('nav.start_assessment')}
         </Button>
@@ -82,10 +82,10 @@ export default function Results() {
 
   const getLevelLabel = (level: string) => {
     switch (level) {
-      case 'expert': return 'Expert';
-      case 'advanced': return 'Advanced';
-      case 'intermediate': return 'Intermediate';
-      case 'beginner': return 'Beginner';
+      case 'expert': return t('results.level_expert');
+      case 'advanced': return t('results.level_advanced');
+      case 'intermediate': return t('results.level_intermediate');
+      case 'beginner': return t('results.level_beginner');
       default: return level;
     }
   };
@@ -102,7 +102,7 @@ export default function Results() {
             className="text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('common.back')}
           </Button>
         </div>
 
@@ -118,7 +118,7 @@ export default function Results() {
             }}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to History
+            {t('results.back_to_history')}
           </Button>
         )}
 
@@ -146,7 +146,7 @@ export default function Results() {
             <CardContent className="pt-6 text-center">
               <Target className="h-5 w-5 mx-auto text-blue-500 mb-2" />
               <div className="text-2xl font-bold">{skillScores.length}</div>
-              <div className="text-xs text-muted-foreground">Skills Assessed</div>
+              <div className="text-xs text-muted-foreground">{t('results.skills_assessed')}</div>
             </CardContent>
           </Card>
           <Card>
@@ -155,14 +155,14 @@ export default function Results() {
               <div className="text-2xl font-bold">
                 {durationMinutes}:{String(result.duration % 60).padStart(2, '0')}
               </div>
-              <div className="text-xs text-muted-foreground">Duration</div>
+              <div className="text-xs text-muted-foreground">{t('results.duration')}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
               <TrendingUp className="h-5 w-5 mx-auto text-green-500 mb-2" />
               <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                {avgScore >= 60 ? 'Passed' : 'Needs Work'}
+                {avgScore >= 60 ? t('results.passed') : t('results.needs_work')}
               </div>
               <div className="text-xs text-muted-foreground">{t('results.status')}</div>
             </CardContent>
@@ -216,13 +216,13 @@ export default function Results() {
                 <BarChart3 className="h-5 w-5" />
                 {t('results.performance_metrics')}
               </CardTitle>
-              <CardDescription>Detailed skill-by-skill breakdown</CardDescription>
+              <CardDescription>{t('results.detailed_breakdown')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {isHistoryView ? (
                 <div className="text-center text-muted-foreground py-8">
-                  <p>Detailed metrics for this assessment will be available here.</p>
-                  <p className="text-sm mt-2">Score recorded: {avgScore}%</p>
+                  <p>{t('results.detailed_metrics_placeholder')}</p>
+                  <p className="text-sm mt-2">{t('results.score_recorded', { score: avgScore })}</p>
                 </div>
               ) : (
                 skillScores.map((skill) => (

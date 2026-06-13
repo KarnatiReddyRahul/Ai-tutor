@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -20,8 +21,9 @@ interface ChatBoxProps {
 }
 
 export default function ChatBox({ topic, apiKey, provider, onSendMessage, placeholder, onClose, compact }: ChatBoxProps) {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: `Hi! I'm your AI tutor for **${topic}**. Ask me anything about this topic!` }
+    { role: 'assistant', content: t('chat_box.welcome', { topic }) }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +46,7 @@ export default function ChatBox({ topic, apiKey, provider, onSendMessage, placeh
       const answer = await onSendMessage(question, history);
       setMessages(prev => [...prev, { role: 'assistant', content: answer }]);
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I had trouble answering. Please try again.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t('chat_box.error_message') }]);
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +57,7 @@ export default function ChatBox({ topic, apiKey, provider, onSendMessage, placeh
       <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/50 rounded-t-lg">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-primary" />
-          <span className="font-medium text-sm">AI Tutor</span>
+          <span className="font-medium text-sm">{t('chat_box.title')}</span>
         </div>
         {onClose && (
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -90,7 +92,7 @@ export default function ChatBox({ topic, apiKey, provider, onSendMessage, placeh
           <div className="flex gap-3">
             <Bot className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
             <div className="bg-muted rounded-lg px-4 py-2 text-sm text-muted-foreground animate-pulse">
-              Thinking...
+              {t('chat_box.thinking')}
             </div>
           </div>
         )}
@@ -101,7 +103,7 @@ export default function ChatBox({ topic, apiKey, provider, onSendMessage, placeh
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={placeholder || "Ask a doubt..."}
+            placeholder={placeholder || t('chat_box.placeholder')}
             className="flex-1"
             disabled={isLoading}
           />

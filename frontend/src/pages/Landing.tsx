@@ -120,17 +120,17 @@ export default function Landing() {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landing.how_it_works')}</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              AI Reverse Tutor uses a four-step process to transform how you learn.
+              {t('landing.how_it_works_desc')}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {[
-              { step: '01', title: 'Choose Topic', desc: 'Select what you want to learn', icon: Search },
-              { step: '02', title: 'AI Interviews', desc: 'Answer AI-generated questions', icon: Bot },
-              { step: '03', title: 'Discover Gaps', desc: 'Find knowledge gaps instantly', icon: Map },
-              { step: '04', title: 'Learn Faster', desc: 'Follow a personalized roadmap', icon: TrendingUp },
+              { step: '01', title: t('landing.step1_title'), desc: t('landing.step1_desc'), icon: Search },
+              { step: '02', title: t('landing.step2_title'), desc: t('landing.step2_desc'), icon: Bot },
+              { step: '03', title: t('landing.step3_title'), desc: t('landing.step3_desc'), icon: Map },
+              { step: '04', title: t('landing.step4_title'), desc: t('landing.step4_desc'), icon: TrendingUp },
             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary text-primary-foreground font-bold text-lg mb-4">
