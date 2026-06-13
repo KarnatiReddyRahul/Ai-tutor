@@ -5,12 +5,9 @@ import { assessmentService } from '@/services/assessmentService';
 import { useAuthStore } from '@/store/authStore';
 import { useSettingsStore } from '@/store/settingsStore';
 
-// Maps each AI provider to its correct default model name
-const PROVIDER_MODEL_MAP: Record<string, string> = {
-  ollama: 'llama3',
-  gemini: 'gemini-2.5-flash',
-  groq: 'llama-3.1-8b-instant',
-};
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
+const PROVIDER = 'groq';
+const MODEL = 'llama-3.1-8b-instant';
 
 interface InterviewState {
   topic: Topic | null;
@@ -23,11 +20,7 @@ interface InterviewState {
   currentAnswer: string;
   isSubmitting: boolean;
   elapsedSeconds: number;
-  apiKey: string;
-  provider: string;
 
-  setApiKey: (key: string) => void;
-  setProvider: (provider: string) => void;
   setCurrentAnswer: (answer: string) => void;
   setTopic: (topic: Topic) => void;
   setDifficulty: (difficulty: Difficulty) => void;
@@ -49,24 +42,19 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
   currentAnswer: '',
   isSubmitting: false,
   elapsedSeconds: 0,
-  apiKey: '',
-  provider: 'gemini',
 
   setTopic: (topic: Topic) => set({ topic }),
   setDifficulty: (difficulty: Difficulty) => set({ difficulty }),
-  setApiKey: (apiKey) => set({ apiKey }),
-  setProvider: (provider) => set({ provider, apiKey: '' }),
   setCurrentAnswer: (currentAnswer) => set({ currentAnswer }),
   tick: () => set((state) => ({ elapsedSeconds: state.elapsedSeconds + 1 })),
 
   startInterview: async () => {
-    const { topic, apiKey, provider, difficulty } = get();
-    if (!topic || !apiKey) {
-      console.error("Missing topic or API Key");
+    const { topic, difficulty } = get();
+    if (!topic) {
+      console.error("Missing topic");
       return;
     }
 
-    const model = PROVIDER_MODEL_MAP[provider] || 'gemini-2.5-flash';
     const difficultyTurns: Record<string, number> = { beginner: 6, intermediate: 8, advanced: 10 };
 
     set({ isLoading: true });
@@ -75,11 +63,11 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
         user_id: 'guest',
         topic: topic.name,
         language: 'en',
-        provider,
-        model,
+        provider: PROVIDER,
+        model: MODEL,
         difficulty,
         max_turns: difficultyTurns[difficulty] || 6,
-      }, apiKey, provider);
+      }, GROQ_API_KEY, PROVIDER);
 
       set({
         sessionId: response.id,
@@ -95,9 +83,8 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
     }
   },
 
-  // Fixed: removed duplicate broken submitAnswer — keeping only the correct one
   submitAnswer: async () => {
-    const { sessionId, currentQuestion, currentAnswer, history, apiKey, provider } = get();
+    const { sessionId, currentQuestion, currentAnswer, history } = get();
     if (!sessionId || !currentQuestion || !currentAnswer.trim()) return;
 
     set({ isSubmitting: true });
@@ -105,8 +92,8 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
       const response = await assessmentService.evaluateAnswer(
         sessionId,
         { answer_text: currentAnswer },
-        apiKey,
-        provider
+        GROQ_API_KEY,
+        PROVIDER
       );
 
       const completedTurn: TurnResponse = {
@@ -149,15 +136,12 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
     }),
 
   getSessionStats: () => {
-    const { history, elapsedSeconds } = get();
+    const { history, elapsedSeconds, difficulty } = get();
     const answeredQuestions = history.length;
     const correctAnswers = history.filter((h) => (h.score || 0) >= 60).length;
     const totalScore = history.reduce((acc, h) => acc + (h.score || 0), 0);
     const averageScore = answeredQuestions > 0 ? totalScore / answeredQuestions : 0;
-    const totalQuestions = (() => {
-      const d = get().difficulty;
-      return d === 'advanced' ? 10 : d === 'intermediate' ? 8 : 6;
-    })();
+    const totalQuestions = difficulty === 'advanced' ? 10 : difficulty === 'intermediate' ? 8 : 6;
 
     return {
       totalQuestions,

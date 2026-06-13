@@ -12,7 +12,6 @@ import api from './apiClient';
 export const assessmentService = {
   startAssessment: async (payload: SessionCreate, apiKey?: string, provider?: string): Promise<SessionResponse> => {
     const headers: Record<string, string> = {};
-    if (apiKey && provider === 'gemini') headers['x-gemini-api-key'] = apiKey;
     if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
 
     const { data } = await api.post<SessionResponse>('/assessments/start', payload, { headers });
@@ -21,7 +20,6 @@ export const assessmentService = {
 
   evaluateAnswer: async (sessionId: string, payload: AnswerSubmit, apiKey?: string, provider?: string): Promise<AnswerResponse> => {
     const headers: Record<string, string> = {};
-    if (apiKey && provider === 'gemini') headers['x-gemini-api-key'] = apiKey;
     if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
 
     const { data } = await api.post<AnswerResponse>(`/assessments/${sessionId}/evaluate`, payload, { headers });
@@ -33,12 +31,9 @@ export const assessmentService = {
     return data;
   },
 
-  // Fixed: now calls the real backend sessions endpoint
   getAssessmentHistory: async (): Promise<AssessmentHistory[]> => {
     try {
       const { data } = await api.get<SessionDetailResponse[]>('/sessions/');
-      
-      // Transform backend SessionResponse → frontend AssessmentHistory
       return data.map((session) => {
         const start = new Date(session.created_at).getTime();
         const end = session.completed_at

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Search, ArrowRight, Sliders, ArrowLeft, Cpu } from 'lucide-react';
+import { Search, ArrowRight, Sliders, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,15 +12,10 @@ import { TOPICS, DIFFICULTIES } from '@/constants';
 import { useInterviewStore } from '@/store/interviewStore';
 import type { Difficulty } from '@/types';
 
-const PROVIDERS = [
-  { value: 'gemini', label: 'Gemini', keyPlaceholder: 'Enter your Gemini API Key', keyLabel: 'Gemini API Key' },
-  { value: 'groq', label: 'Groq', keyPlaceholder: 'Enter your Groq API Key', keyLabel: 'Groq API Key' },
-];
-
 export default function TopicSelection() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setTopic, setDifficulty, setApiKey, setProvider, apiKey, provider } = useInterviewStore();
+  const { setTopic, setDifficulty } = useInterviewStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('beginner');
@@ -74,37 +69,6 @@ export default function TopicSelection() {
           <p className="text-muted-foreground">{t('topics.subtitle')}</p>
         </div>
 
-        {/* Settings */}
-        <Card className="mb-8 p-4">
-          <div className="space-y-4">
-            <div>
-              <Label>AI Provider</Label>
-              <div className="flex gap-2 mt-1">
-                {PROVIDERS.map((p) => (
-                  <Button
-                    key={p.value}
-                    variant={provider === p.value ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setProvider(p.value)}
-                  >
-                    <Cpu className="h-4 w-4 mr-2" />
-                    {p.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            <div>
-              <Label>{PROVIDERS.find(p => p.value === provider)?.keyLabel} (Required for Assessment)</Label>
-              <Input 
-                placeholder={PROVIDERS.find(p => p.value === provider)?.keyPlaceholder}
-                value={apiKey} 
-                onChange={(e) => setApiKey(e.target.value)} 
-                className="mt-1"
-              />
-            </div>
-          </div>
-        </Card>
-
         {/* Search & Filters */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
@@ -146,6 +110,9 @@ export default function TopicSelection() {
               max={100}
               step={1}
             />
+            {confidence[0] === 0 && (
+              <p className="text-xs text-muted-foreground mt-2">Learn first via chat, then start assessment when ready</p>
+            )}
           </CardContent>
         </Card>
 

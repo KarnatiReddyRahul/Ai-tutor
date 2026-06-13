@@ -27,7 +27,6 @@ router = APIRouter()
 async def create_session(
     payload: SessionCreate,
     db: Session = Depends(deps.get_db),
-    gemini_key: Optional[str] = Depends(deps.get_gemini_key),
     groq_key: Optional[str] = Depends(deps.get_groq_key)
 ):
     """
@@ -38,7 +37,6 @@ async def create_session(
         provider = ai_factory.get_provider(
             provider_name=payload.provider,
             model_name=payload.model,
-            gemini_key=gemini_key,
             groq_key=groq_key
         )
 
@@ -100,7 +98,6 @@ async def submit_answer(
     session_id: uuid.UUID,
     payload: AnswerSubmit,
     db: Session = Depends(deps.get_db),
-    gemini_key: Optional[str] = Depends(deps.get_gemini_key),
     groq_key: Optional[str] = Depends(deps.get_groq_key)
 ):
     """
@@ -132,7 +129,6 @@ async def submit_answer(
         provider = ai_factory.get_provider(
             provider_name=session_db.provider,
             model_name=session_db.model,
-            gemini_key=gemini_key,
             groq_key=groq_key
         )
 
@@ -243,7 +239,6 @@ async def submit_answer(
 async def complete_session_early(
     session_id: uuid.UUID,
     db: Session = Depends(deps.get_db),
-    gemini_key: Optional[str] = Depends(deps.get_gemini_key),
     groq_key: Optional[str] = Depends(deps.get_groq_key)
 ):
     """
@@ -288,7 +283,6 @@ async def complete_session_early(
         provider = ai_factory.get_provider(
             provider_name=session_db.provider,
             model_name=session_db.model,
-            gemini_key=gemini_key,
             groq_key=groq_key
         )
 

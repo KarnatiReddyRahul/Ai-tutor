@@ -7,10 +7,12 @@ import { useInterviewStore } from '@/store/interviewStore';
 import ChatBox from '@/components/ChatBox';
 import { chatService } from '@/services/chatService';
 
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
+
 export default function LearnChat() {
   const { topicId } = useParams();
   const navigate = useNavigate();
-  const { setTopic, setApiKey, apiKey, provider } = useInterviewStore();
+  const { setTopic } = useInterviewStore();
 
   const topic = TOPICS.find(t => t.id === topicId);
   if (!topic) {
@@ -51,24 +53,15 @@ export default function LearnChat() {
           </CardContent>
         </Card>
 
-        {!apiKey ? (
-          <Card>
-            <CardContent className="pt-6 text-center">
-              <p className="text-muted-foreground mb-4">Enter your API Key in Topics page to start learning.</p>
-              <Button onClick={() => navigate('/topics')}>Go to Topics</Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="h-[600px]">
-            <ChatBox
-              topic={topic.name}
-              apiKey={apiKey}
-              provider={provider}
-              onSendMessage={(question, history) => chatService.ask(topic.name, question, history, apiKey, provider)}
-              placeholder="Ask anything about this topic..."
-            />
-          </div>
-        )}
+        <div className="h-[600px]">
+          <ChatBox
+            topic={topic.name}
+            apiKey={GROQ_API_KEY}
+            provider="groq"
+            onSendMessage={(question, history) => chatService.ask(topic.name, question, history, GROQ_API_KEY, 'groq')}
+            placeholder="Ask anything about this topic..."
+          />
+        </div>
       </div>
     </div>
   );

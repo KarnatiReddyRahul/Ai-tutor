@@ -23,18 +23,13 @@ class ChatResponse(BaseModel):
 @router.post("/ask", response_model=ChatResponse)
 async def chat_ask(
     payload: ChatRequest,
-    gemini_key: Optional[str] = Depends(deps.get_gemini_key),
     groq_key: Optional[str] = Depends(deps.get_groq_key)
 ):
-    provider_name = "gemini" if gemini_key else "groq"
-    api_key = gemini_key or groq_key
-    model = "gemini-2.5-flash" if gemini_key else "llama-3.1-8b-instant"
-
-    if not api_key:
+    if not groq_key:
         raise HTTPException(status_code=400, detail="No API key provided")
 
     try:
-        provider = ai_factory.get_provider(provider_name, model, gemini_key, groq_key)
+        provider = ai_factory.get_provider("groq", "llama-3.1-8b-instant", groq_key=groq_key)
 
         system_prompt = (
             "You are a friendly, patient AI tutor. Your goal is to help the student understand concepts clearly. "

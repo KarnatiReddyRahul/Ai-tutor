@@ -41,8 +41,6 @@ export default function Interview() {
     isComplete,
     isLoading,
     currentAnswer,
-    apiKey,
-    provider,
     startInterview,
     submitAnswer,
     setCurrentAnswer,
@@ -203,9 +201,9 @@ export default function Interview() {
             <div className="h-[500px]">
               <ChatBox
                 topic={topic.name}
-                apiKey={apiKey}
-                provider={provider}
-                onSendMessage={(question, history) => chatService.ask(topic.name, question, history, apiKey, provider)}
+                apiKey={import.meta.env.VITE_GROQ_API_KEY || ''}
+                provider="groq"
+                onSendMessage={(question, history) => chatService.ask(topic.name, question, history, import.meta.env.VITE_GROQ_API_KEY || '', 'groq')}
                 placeholder="Ask a doubt about this question..."
                 compact
               />
