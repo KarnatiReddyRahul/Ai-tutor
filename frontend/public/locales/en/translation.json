@@ -267,7 +267,13 @@
     "built_with": "Built with React, TypeScript, Tailwind CSS, and shadcn/ui",
     "language_en": "English",
     "language_te": "తెలుగు",
-    "language_hi": "हिन्दी"
+    "language_hi": "हिन्दी",
+    "ai_provider": "AI Provider",
+    "ai_provider_description": "Choose your AI provider and enter your API key",
+    "provider": "Provider",
+    "api_key": "API Key",
+    "groq_key_hint": "Get your Groq API key from console.groq.com",
+    "gemini_key_hint": "Get your Gemini API key from aistudio.google.com"
   },
   "login": {
     "fill_fields": "Please fill in all fields",

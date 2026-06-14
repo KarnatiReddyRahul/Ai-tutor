@@ -20,16 +20,34 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
 
+def _resolve_provider(
+    provider_name: str,
+    model_name: str,
+    groq_key: Optional[str],
+    gemini_key: Optional[str]
+):
+    return ai_factory.get_provider(
+        provider_name=provider_name,
+        model_name=model_name,
+        groq_key=groq_key,
+        gemini_key=gemini_key
+    )
+
 @router.post("/ask", response_model=ChatResponse)
 async def chat_ask(
     payload: ChatRequest,
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    provider_name: str = Depends(deps.get_provider_name),
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ):
-    if not groq_key:
-        raise HTTPException(status_code=400, detail="No API key provided")
+    if provider_name == "groq" and not groq_key:
+        raise HTTPException(status_code=400, detail="Groq API key is required")
+    if provider_name == "gemini" and not gemini_key:
+        raise HTTPException(status_code=400, detail="Gemini API key is required")
 
     try:
-        provider = ai_factory.get_provider("groq", "llama-3.1-8b-instant", groq_key=groq_key)
+        model = "llama-3.1-8b-instant" if provider_name == "groq" else "gemini-1.5-flash"
+        provider = _resolve_provider(provider_name, model, groq_key, gemini_key)
 
         system_prompt = (
             "You are a friendly, patient AI tutor. Your goal is to help the student understand concepts clearly. "

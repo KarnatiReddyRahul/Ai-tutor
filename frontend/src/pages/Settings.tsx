@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,19 +10,29 @@ import {
   ExternalLink,
   Check,
   ArrowLeft,
+  Key,
+  Cpu,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useSettingsStore, type AiProvider } from '@/store/settingsStore';
 import type { Language, Theme } from '@/types';
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { language, theme, fontSize, setLanguage, setTheme, setFontSize } = useSettingsStore();
+  const {
+    language, theme, fontSize, provider, apiKey,
+    setLanguage, setTheme, setFontSize, setProvider, setApiKey,
+  } = useSettingsStore();
+  const [showKey, setShowKey] = useState(false);
+  const [localApiKey, setLocalApiKey] = useState(apiKey);
 
   const handleLanguageChange = (lang: Language) => {
     setLanguage(lang);
@@ -45,6 +56,19 @@ export default function Settings() {
     { value: 'medium', label: t('settings.medium') },
     { value: 'large', label: t('settings.large') },
   ];
+
+  const providers: { value: AiProvider; label: string; icon: string }[] = [
+    { value: 'groq', label: 'Groq', icon: '⚡' },
+    { value: 'gemini', label: 'Gemini', icon: '🔮' },
+  ];
+
+  const handleProviderChange = (v: string) => {
+    setProvider(v as AiProvider);
+  };
+
+  const handleApiKeyBlur = () => {
+    setApiKey(localApiKey);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -143,6 +167,80 @@ export default function Settings() {
                   </div>
                 ))}
               </RadioGroup>
+            </CardContent>
+          </Card>
+
+          {/* AI Provider & API Key */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Cpu className="h-5 w-5 text-primary" />
+                <div>
+                  <CardTitle>{t('settings.ai_provider')}</CardTitle>
+                  <CardDescription>{t('settings.ai_provider_description')}</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label className="mb-3 block">{t('settings.provider')}</Label>
+                <RadioGroup
+                  value={provider}
+                  onValueChange={handleProviderChange}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                >
+                  {providers.map((p) => (
+                    <div key={p.value}>
+                      <RadioGroupItem
+                        value={p.value}
+                        id={`provider-${p.value}`}
+                        className="peer sr-only"
+                      />
+                      <Label
+                        htmlFor={`provider-${p.value}`}
+                        className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                      >
+                        <span className="text-2xl">{p.icon}</span>
+                        <span className="font-medium mt-1">{p.label}</span>
+                        {provider === p.value && (
+                          <Check className="h-4 w-4 text-primary mt-1" />
+                        )}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+
+              <div>
+                <Label htmlFor="api-key" className="mb-2 block">
+                  {t('settings.api_key')}
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="api-key"
+                    type={showKey ? 'text' : 'password'}
+                    value={localApiKey}
+                    onChange={(e) => setLocalApiKey(e.target.value)}
+                    onBlur={handleApiKeyBlur}
+                    placeholder={provider === 'groq' ? 'gsk_...' : 'AIza...'}
+                    className="pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                    onClick={() => setShowKey(!showKey)}
+                  >
+                    {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {provider === 'groq'
+                    ? t('settings.groq_key_hint')
+                    : t('settings.gemini_key_hint')}
+                </p>
+              </div>
             </CardContent>
           </Card>
 

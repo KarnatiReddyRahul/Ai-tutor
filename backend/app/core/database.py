@@ -12,7 +12,7 @@ engine = create_engine(
 
 def init_db() -> None:
     # Import models here so that they are registered in SQLModel.metadata
-    from app.db.models import User, SessionModel, SessionTurn, Report
+    from app.db.models import User, SessionModel, SessionTurn, Report, LearningRoadmap, LearningModule, ChatMessage
     SQLModel.metadata.create_all(engine)
 
 def get_db():

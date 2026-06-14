@@ -27,7 +27,8 @@ router = APIRouter()
 async def create_session(
     payload: SessionCreate,
     db: Session = Depends(deps.get_db),
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ):
     """
     Initializes a reverse tutoring session, generates the initial question, and persists to SQLite.
@@ -37,7 +38,8 @@ async def create_session(
         provider = ai_factory.get_provider(
             provider_name=payload.provider,
             model_name=payload.model,
-            groq_key=groq_key
+            groq_key=groq_key,
+            gemini_key=gemini_key
         )
 
         logger.info(f"Generating initial question for topic: {payload.topic}")
@@ -98,7 +100,8 @@ async def submit_answer(
     session_id: uuid.UUID,
     payload: AnswerSubmit,
     db: Session = Depends(deps.get_db),
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ):
     """
     Submits a student's answer.
@@ -129,7 +132,8 @@ async def submit_answer(
         provider = ai_factory.get_provider(
             provider_name=session_db.provider,
             model_name=session_db.model,
-            groq_key=groq_key
+            groq_key=groq_key,
+            gemini_key=gemini_key
         )
 
         logger.info(f"Evaluating answer for session {session_id}, turn {current_turn.turn_number}")
@@ -239,7 +243,8 @@ async def submit_answer(
 async def complete_session_early(
     session_id: uuid.UUID,
     db: Session = Depends(deps.get_db),
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ):
     """
     Concludes the session early. Aggregates answered questions, compiles the final report.
@@ -283,7 +288,8 @@ async def complete_session_early(
         provider = ai_factory.get_provider(
             provider_name=session_db.provider,
             model_name=session_db.model,
-            groq_key=groq_key
+            groq_key=groq_key,
+            gemini_key=gemini_key
         )
 
         logger.info(f"Generating early exit report for session {session_id}")

@@ -267,7 +267,13 @@
     "built_with": "React, TypeScript, Tailwind CSS మరియు shadcn/ui తో నిర్మించబడింది",
     "language_en": "English",
     "language_te": "తెలుగు",
-    "language_hi": "हिन्दी"
+    "language_hi": "हिन्दी",
+    "ai_provider": "AI ప్రొవైడర్",
+    "ai_provider_description": "మీ AI ప్రొవైడర్‌ను ఎంచుకోండి మరియు API కీని నమోదు చేయండి",
+    "provider": "ప్రొవైడర్",
+    "api_key": "API కీ",
+    "groq_key_hint": "console.groq.com నుండి మీ Groq API కీని పొందండి",
+    "gemini_key_hint": "aistudio.google.com నుండి మీ Gemini API కీని పొందండి"
   },
   "login": {
     "fill_fields": "దయచేసి అన్ని ఫీల్డ్‌లను పూరించండి",

@@ -124,3 +124,50 @@ export interface StatCard {
   change: string;
   icon: string;
 }
+
+export interface LearningModule {
+  id: string;
+  roadmap_id: string;
+  week_number: number;
+  title: string;
+  description: string;
+  focus_area: string;
+  difficulty: string;
+  status: 'locked' | 'available' | 'completed';
+  quiz_score: number | null;
+  completed_at: string | null;
+  concept_explanation: string | null;
+  examples: string | null;
+  practice_exercises: string | null;
+  quiz_questions: string | null;
+  revision_notes: string | null;
+}
+
+export interface LearningRoadmap {
+  id: string;
+  session_id: string;
+  topic: string;
+  language: string;
+  weak_areas: string[];
+  strengths: string[];
+  overall_score: number;
+  created_at: string;
+  modules: LearningModule[];
+}
+
+export interface LearningProgress {
+  exists: boolean;
+  total_modules: number;
+  completed_modules: number;
+  available_modules: number;
+  progress_percent: number;
+  average_quiz_score: number | null;
+  modules: {
+    id: string;
+    week_number: number;
+    title: string;
+    status: string;
+    quiz_score: number | null;
+    completed_at: string | null;
+  }[];
+}

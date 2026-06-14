@@ -23,6 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useInterviewStore } from '@/store/interviewStore';
 import { useTimer } from '@/hooks/useTimer';
 import { useAssessmentStore } from '@/store/assessmentStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import ChatBox from '@/components/ChatBox';
 import { chatService } from '@/services/chatService';
 
@@ -32,6 +33,7 @@ export default function Interview() {
   const navigate = useNavigate();
   const { formatTime } = useTimer();
   const { generateResult } = useAssessmentStore();
+  const { provider, apiKey } = useSettingsStore();
   const [showDoubtChat, setShowDoubtChat] = useState(false);
 
   const {
@@ -201,9 +203,9 @@ export default function Interview() {
             <div className="h-[500px]">
               <ChatBox
                 topic={topic.name}
-                apiKey={import.meta.env.VITE_GROQ_API_KEY || ''}
-                provider="groq"
-                onSendMessage={(question, history) => chatService.ask(topic.name, question, history, import.meta.env.VITE_GROQ_API_KEY || '', 'groq')}
+                apiKey={apiKey || import.meta.env.VITE_GROQ_API_KEY || ''}
+                provider={provider}
+                onSendMessage={(question, history) => chatService.ask(topic.name, question, history, apiKey || import.meta.env.VITE_GROQ_API_KEY || '', provider)}
                 placeholder={t('interview.doubt_placeholder')}
                 compact
               />

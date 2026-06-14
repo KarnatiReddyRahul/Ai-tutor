@@ -28,13 +28,15 @@ router = APIRouter()
 async def start_assessment(
     payload: SessionCreate,
     db: Session = Depends(deps.get_db),
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ) -> SessionResponse:
     try:
         provider = ai_factory.get_provider(
             provider_name=payload.provider,
             model_name=payload.model,
-            groq_key=groq_key
+            groq_key=groq_key,
+            gemini_key=gemini_key
         )
         logger.info(f"Assessment start: Generating initial question for topic: {payload.topic}")
 
@@ -91,7 +93,8 @@ async def evaluate_assessment_answer(
     session_id: uuid.UUID,
     payload: AnswerSubmit,
     db: Session = Depends(deps.get_db),
-    groq_key: Optional[str] = Depends(deps.get_groq_key)
+    groq_key: Optional[str] = Depends(deps.get_groq_key),
+    gemini_key: Optional[str] = Depends(deps.get_gemini_key)
 ) -> AnswerResponse:
     session_db = db.get(SessionModel, session_id)
     if not session_db:
@@ -110,7 +113,8 @@ async def evaluate_assessment_answer(
         provider = ai_factory.get_provider(
             provider_name=session_db.provider,
             model_name=session_db.model,
-            groq_key=groq_key
+            groq_key=groq_key,
+            gemini_key=gemini_key
         )
         
         evaluation = await EvaluationEngine.evaluate_answer(

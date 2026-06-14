@@ -5,16 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { TOPICS } from '@/constants';
 import { useInterviewStore } from '@/store/interviewStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import ChatBox from '@/components/ChatBox';
 import { chatService } from '@/services/chatService';
-
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
 
 export default function LearnChat() {
   const { t } = useTranslation();
   const { topicId } = useParams();
   const navigate = useNavigate();
   const { setTopic } = useInterviewStore();
+  const { provider, apiKey } = useSettingsStore();
+  const key = apiKey || import.meta.env.VITE_GROQ_API_KEY || '';
 
   const topic = TOPICS.find(t => t.id === topicId);
   if (!topic) {
@@ -58,9 +59,9 @@ export default function LearnChat() {
         <div className="h-[600px]">
           <ChatBox
             topic={topic.name}
-            apiKey={GROQ_API_KEY}
-            provider="groq"
-            onSendMessage={(question, history) => chatService.ask(topic.name, question, history, GROQ_API_KEY, 'groq')}
+            apiKey={key}
+            provider={provider}
+            onSendMessage={(question, history) => chatService.ask(topic.name, question, history, key, provider)}
             placeholder={t('learn_chat.placeholder')}
           />
         </div>

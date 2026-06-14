@@ -267,7 +267,13 @@
     "built_with": "React, TypeScript, Tailwind CSS और shadcn/ui के साथ बनाया गया",
     "language_en": "English",
     "language_te": "తెలుగు",
-    "language_hi": "हिन्दी"
+    "language_hi": "हिन्दी",
+    "ai_provider": "AI प्रदाता",
+    "ai_provider_description": "अपना AI प्रदाता चुनें और API कुंजी दर्ज करें",
+    "provider": "प्रदाता",
+    "api_key": "API कुंजी",
+    "groq_key_hint": "console.groq.com से अपनी Groq API कुंजी प्राप्त करें",
+    "gemini_key_hint": "aistudio.google.com से अपनी Gemini API कुंजी प्राप्त करें"
   },
   "login": {
     "fill_fields": "कृपया सभी फ़ील्ड भरें",

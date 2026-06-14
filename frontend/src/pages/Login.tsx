@@ -35,8 +35,8 @@ export default function Login() {
     try {
       await login(email, password);
       navigate('/topics');
-    } catch (err) {
-      setError(t('login.failed'));
+    } catch (err: any) {
+      setError(err?.message || t('login.failed'));
     }
   };
 

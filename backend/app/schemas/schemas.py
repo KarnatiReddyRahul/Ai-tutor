@@ -119,5 +119,73 @@ class UserResponse(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
-    user_id: str     # Return user_id so frontend can store it
-    username: str    # Return username for display
+    user_id: str
+    username: str
+
+
+# --- Learning Schemas ---
+
+class GenerateRoadmapRequest(BaseModel):
+    session_id: uuid.UUID
+    language: str = "en"
+
+class LearningModuleResponse(BaseModel):
+    id: uuid.UUID
+    roadmap_id: uuid.UUID
+    week_number: int
+    title: str
+    description: str
+    focus_area: str
+    difficulty: str
+    status: str
+    quiz_score: Optional[float] = None
+    completed_at: Optional[datetime] = None
+    concept_explanation: Optional[str] = None
+    examples: Optional[str] = None
+    practice_exercises: Optional[str] = None
+    quiz_questions: Optional[str] = None
+    revision_notes: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class LearningRoadmapResponse(BaseModel):
+    id: uuid.UUID
+    session_id: uuid.UUID
+    topic: str
+    language: str
+    weak_areas: List[str]
+    strengths: List[str]
+    overall_score: float
+    created_at: datetime
+    modules: List[LearningModuleResponse] = []
+
+    class Config:
+        from_attributes = True
+
+class ModuleContentRequest(BaseModel):
+    module_id: uuid.UUID
+
+class QuizSubmitRequest(BaseModel):
+    module_id: uuid.UUID
+    score: float
+
+class LearningSearchRequest(BaseModel):
+    query: str
+    topic: str
+    difficulty: str = "beginner"
+    language: str = "en"
+
+class LearningSearchResponse(BaseModel):
+    explanation: str
+    examples: Optional[str] = None
+
+class LearningChatRequest(BaseModel):
+    roadmap_id: uuid.UUID
+    module_id: Optional[uuid.UUID] = None
+    session_id: uuid.UUID
+    question: str
+    history: List[Dict[str, str]] = []
+
+class LearningChatResponse(BaseModel):
+    answer: str

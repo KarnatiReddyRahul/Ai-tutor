@@ -3,11 +3,7 @@ import type { Answer, SessionStats, Difficulty, Topic } from '@/types';
 import type { SessionQuestion, TurnResponse } from '@/types/backend';
 import { assessmentService } from '@/services/assessmentService';
 import { useAuthStore } from '@/store/authStore';
-import { useSettingsStore } from '@/store/settingsStore';
-
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
-const PROVIDER = 'groq';
-const MODEL = 'llama-3.1-8b-instant';
+import { useSettingsStore, type AiProvider } from '@/store/settingsStore';
 
 interface InterviewState {
   topic: Topic | null;
@@ -55,6 +51,11 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
       return;
     }
 
+    const settings = useSettingsStore.getState();
+    const provider = settings.provider;
+    const apiKey = settings.apiKey || import.meta.env.VITE_GROQ_API_KEY || '';
+    const model = settings.model;
+
     const difficultyTurns: Record<string, number> = { beginner: 6, intermediate: 8, advanced: 10 };
 
     set({ isLoading: true });
@@ -63,11 +64,11 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
         user_id: 'guest',
         topic: topic.name,
         language: 'en',
-        provider: PROVIDER,
-        model: MODEL,
+        provider,
+        model,
         difficulty,
         max_turns: difficultyTurns[difficulty] || 6,
-      }, GROQ_API_KEY, PROVIDER);
+      }, apiKey, provider);
 
       set({
         sessionId: response.id,
@@ -87,13 +88,17 @@ export const useInterviewStore = create<InterviewState>()((set, get) => ({
     const { sessionId, currentQuestion, currentAnswer, history } = get();
     if (!sessionId || !currentQuestion || !currentAnswer.trim()) return;
 
+    const settings = useSettingsStore.getState();
+    const apiKey = settings.apiKey || import.meta.env.VITE_GROQ_API_KEY || '';
+    const provider = settings.provider;
+
     set({ isSubmitting: true });
     try {
       const response = await assessmentService.evaluateAnswer(
         sessionId,
         { answer_text: currentAnswer },
-        GROQ_API_KEY,
-        PROVIDER
+        apiKey,
+        provider
       );
 
       const completedTurn: TurnResponse = {

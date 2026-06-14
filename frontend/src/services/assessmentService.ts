@@ -7,22 +7,25 @@ import type {
   ReportResponse,
   SessionDetailResponse,
 } from '@/types/backend';
+import type { AiProvider } from '@/store/settingsStore';
 import api from './apiClient';
+
+function buildHeaders(apiKey?: string, provider?: string): Record<string, string> {
+  const headers: Record<string, string> = {};
+  if (provider) headers['x-provider'] = provider;
+  if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
+  if (apiKey && provider === 'gemini') headers['x-gemini-api-key'] = apiKey;
+  return headers;
+}
 
 export const assessmentService = {
   startAssessment: async (payload: SessionCreate, apiKey?: string, provider?: string): Promise<SessionResponse> => {
-    const headers: Record<string, string> = {};
-    if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
-
-    const { data } = await api.post<SessionResponse>('/assessments/start', payload, { headers });
+    const { data } = await api.post<SessionResponse>('/assessments/start', payload, { headers: buildHeaders(apiKey, provider) });
     return data;
   },
 
   evaluateAnswer: async (sessionId: string, payload: AnswerSubmit, apiKey?: string, provider?: string): Promise<AnswerResponse> => {
-    const headers: Record<string, string> = {};
-    if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
-
-    const { data } = await api.post<AnswerResponse>(`/assessments/${sessionId}/evaluate`, payload, { headers });
+    const { data } = await api.post<AnswerResponse>(`/assessments/${sessionId}/evaluate`, payload, { headers: buildHeaders(apiKey, provider) });
     return data;
   },
 

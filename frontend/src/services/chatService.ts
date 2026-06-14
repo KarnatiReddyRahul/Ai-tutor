@@ -1,4 +1,5 @@
 import api from './apiClient';
+import type { AiProvider } from '@/store/settingsStore';
 
 interface ChatMessage {
   role: string;
@@ -6,8 +7,8 @@ interface ChatMessage {
 }
 
 export const chatService = {
-  ask: async (topic: string, question: string, history: ChatMessage[], apiKey: string, provider: string) => {
-    const headers: Record<string, string> = {};
+  ask: async (topic: string, question: string, history: ChatMessage[], apiKey: string, provider: AiProvider) => {
+    const headers: Record<string, string> = { 'x-provider': provider };
     if (apiKey && provider === 'gemini') headers['x-gemini-api-key'] = apiKey;
     if (apiKey && provider === 'groq') headers['x-groq-api-key'] = apiKey;
 

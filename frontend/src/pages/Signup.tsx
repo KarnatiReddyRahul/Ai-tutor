@@ -67,8 +67,8 @@ export default function Signup() {
     try {
       await signup(formData.email, formData.name, formData.password);
       navigate('/topics');
-    } catch (err) {
-      setError(t('signup.failed'));
+    } catch (err: any) {
+      setError(err?.message || t('signup.failed'));
     }
   };
 
