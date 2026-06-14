@@ -1,0 +1,20 @@
+# semgrep.yml
+rules:
+  - id: python.lang.security.hardcoded-password.hardcoded-password
+    message: "Hardcoded password found"
+    rule_description: "Detects hardcoded passwords in Python code."
+    severity: ERROR
+    languages:
+      - python
+    patterns:
+      - pattern: |
+          $VAR = "..."
+      - pattern-not: |
+          $VAR = "abc"
+          $VAR = "123"
+    metadata:
+      category: security
+      confidence: HIGH
+      impact: HIGH
+      references:
+        - "https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication"
