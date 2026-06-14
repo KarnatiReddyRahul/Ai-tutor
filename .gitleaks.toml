@@ -1,0 +1,21 @@
+# Gitleaks config for AI Reverse Tutor
+[allowlist]
+description = "Allowlisted patterns for AI Reverse Tutor"
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(?:key|api|token|secret|password|auth)[\s:=]+['"][A-Za-z0-9+/]{20,}['"]'''
+tags = ["key", "api", "generic"]
+
+[[rules]]
+id = "gemini-api-key"
+description = "Google Gemini API Key"
+regex = '''AIza[0-9A-Za-z\-_]{35}'''
+tags = ["key", "Gemini"]
+
+[[rules]]
+id = "groq-api-key"
+description = "Groq API Key"
+regex = '''gsk_[0-9A-Za-z]{40}'''
+tags = ["key", "Groq"]

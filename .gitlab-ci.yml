@@ -1,0 +1,57 @@
+stages:
+  - test
+  - lint
+  - format
+  - type_check
+  - coverage
+  - security
+  - audit
+
+test:
+  stage: test
+  image: python:3.9-slim-buster
+  script:
+    - pip install -r requirements.txt
+    - pytest
+
+lint:
+  stage: lint
+  image: python:3.9-slim-buster
+  script:
+    - pip install -r requirements.txt
+    - ruff check .
+
+format:
+  stage: format
+  image: python:3.9-slim-buster
+  script:
+    - pip install -r requirements.txt
+    - ruff format --check .
+
+type_check:
+  stage: type_check
+  image: python:3.9-slim-buster
+  script:
+    - pip install -r requirements.txt
+    - mypy .
+
+coverage:
+  stage: coverage
+  image: python:3.9-slim-buster
+  script:
+    - pip install -r requirements.txt
+    - pytest --cov=backend/app --cov-report=xml --cov-report=term-missing
+
+security:
+  stage: security
+  image: python:3.9-slim-buster
+  script:
+    - pip install bandit
+    - bandit -r backend/app -ll
+
+audit:
+  stage: audit
+  image: python:3.9-slim-buster
+  script:
+    - pip install pip-audit
+    - pip-audit
